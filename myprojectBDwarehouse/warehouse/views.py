@@ -1,0 +1,40 @@
+from django.shortcuts import render
+
+# warehouse/views.py
+#1. Использование REST API
+#Создание API на Django: В Django можно настроить REST API с помощью библиотеки Django REST Framework (DRF).
+# Этот API позволит вашему Kotlin-приложению отправлять HTTP-запросы для выполнения операций CRUD
+# (создание, чтение, обновление, удаление) с таблицами базы данных.
+#Пример: Создайте API-контроллеры, которые обрабатывают запросы для ваших моделей.
+# Например, для модели User создайте API-представления (views) для GET, POST, PUT, DELETE запросов.
+#Kotlin (Android или Desktop): В Kotlin используйте Retrofit или OkHttp для отправки HTTP-запросов к API.
+# Это позволит вам отправлять данные из вашего приложения в Django и получать ответы.
+
+#со стороны сервера создается спец интерфейс API (Application programming interface) и  Django REST Framework (DRF)
+#обеспечивает взаимодествие через апи с приложением
+
+from rest_framework import viewsets
+from .models import User, Shipment, Product
+from .serializers import UserSerializer, ShipmentSerializer, ProductSerializer
+
+
+#viewsets.ModelViewSet — это класс во viewsets из DRF, который предоставляет стандартные методы для работы с CRUD
+#(создание, чтение, обновление, удаление) для моделей. Он автоматически создаёт обработчики для каждого типа запроса:
+#
+#GET для получения списка всех записей или одной записи,
+#POST для создания новой записи,
+#PUT/ PATCH для обновления существующей записи,
+#DELETE для удаления записи.
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()   #указывает, с какими данными работать (в данном случае, все объекты модели User)
+    serializer_class = UserSerializer   #указывает, каким сериализатором обрабатывать данные, передаваемые и получаемые через API.
+
+class ShipmentViewSet(viewsets.ModelViewSet):
+    queryset = Shipment.objects.all()
+    serializer_class = ShipmentSerializer
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
