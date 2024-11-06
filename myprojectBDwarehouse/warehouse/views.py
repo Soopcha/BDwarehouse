@@ -3,6 +3,9 @@ from django.shortcuts import render
 
 #(.venv) PS C:\lessons\prog\bd\1\new1\BD\myprojectBDwarehouse> python manage.py runserver
 
+#curl -X GET http://127.0.0.1:8000/api/users/
+#curl -X GET http://10.0.2.2:8000/api/users/
+
 # warehouse/views.py
 #1. Использование REST API
 #Создание API на Django: В Django можно настроить REST API с помощью библиотеки Django REST Framework (DRF).
