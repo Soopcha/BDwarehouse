@@ -6,6 +6,12 @@ from django.shortcuts import render
 #curl -X GET http://127.0.0.1:8000/api/users/
 #curl -X GET http://10.0.2.2:8000/api/users/
 
+#curl -X PUT -H "Content-Type: application/json" -d "{\"user_name\": \"New Name\", \"email\": \"newemail@example.com\", \"login\": \"newlogin\", \"password\": \"newpassword\", \"role\": \"user\"}" http://127.0.0.1:8000/api/users/23/
+#телефон не обязателен так что и без него можно
+#curl -X PUT -H "Content-Type: application/json" -d "{\"user_name\": \"New Name222\", \"email\": \"newemail@example.com\", \"login\": \"newlogin\", \"password\": \"newpassword\", \"role\": \"user\", \"phone_number\": \"+1000007890\"}" http://127.0.0.1:8000/api/users/33/
+
+
+
 # warehouse/views.py
 #1. Использование REST API
 #Создание API на Django: В Django можно настроить REST API с помощью библиотеки Django REST Framework (DRF).
@@ -21,7 +27,7 @@ from django.shortcuts import render
 
 from rest_framework import viewsets
 from .models import User, Shipment, Product
-from .serializers import UserSerializer, ShipmentSerializer, ProductSerializer
+from .serializers import *
 
 
 #viewsets.ModelViewSet — это класс во viewsets из DRF, который предоставляет стандартные методы для работы с CRUD
@@ -43,4 +49,16 @@ class ShipmentViewSet(viewsets.ModelViewSet):
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+class WriteOffOfProductsViewSet(viewsets.ModelViewSet):
+    queryset = WriteOffOfProducts.objects.all()
+    serializer_class = WriteOffOfProductsSerializer
+
+class ExtraditionViewSet(viewsets.ModelViewSet):
+    queryset = Extradition.objects.all()
+    serializer_class = ExtraditionSerializer
+
+class ProductsCurrentQuantityViewSet(viewsets.ModelViewSet):
+    queryset = ProductsCurrentQuantity.objects.all()
+    serializer_class = ProductsCurrentQuantitySerializer
 

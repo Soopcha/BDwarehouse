@@ -10,7 +10,7 @@
 # Таким образом, сериализаторы помогают контролировать и обрабатывать данные, поступающие от клиента.
 
 from rest_framework import serializers
-from .models import User, Shipment, Product
+from .models import *
 
 class UserSerializer(serializers.ModelSerializer):
 #serializers.ModelSerializer — это упрощен класс сериализатора, который автоматически создает поля на основе модели.
@@ -27,4 +27,19 @@ class ShipmentSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
+        fields = '__all__'
+
+class WriteOffOfProductsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WriteOffOfProducts
+        fields = '__all__'
+
+class ExtraditionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Extradition
+        fields = '__all__'
+
+class ProductsCurrentQuantitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductsCurrentQuantity
         fields = '__all__'

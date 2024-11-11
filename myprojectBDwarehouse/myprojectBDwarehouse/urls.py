@@ -18,7 +18,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from warehouse.views import UserViewSet, ShipmentViewSet, ProductViewSet
+from warehouse.views import UserViewSet, ShipmentViewSet, ProductViewSet, WriteOffOfProductsViewSet, ExtraditionViewSet, ProductsCurrentQuantityViewSet
 
 
 
@@ -27,6 +27,9 @@ router = DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'shipments', ShipmentViewSet)
 router.register(r'products', ProductViewSet)
+router.register(r'writeOffOfProducts', WriteOffOfProductsViewSet)
+router.register(r'extraditions', ExtraditionViewSet)
+router.register(r'productsCurrentQuantity', ProductsCurrentQuantityViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
