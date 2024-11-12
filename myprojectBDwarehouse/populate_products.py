@@ -7,8 +7,7 @@ from datetime import datetime, timedelta
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myprojectBDwarehouse.settings')
 django.setup()
 
-from warehouse.models import Product, Shipment, User, WriteOffOfProducts, Extradition, \
-    ProductsCurrentQuantity  # Импортируйте ваши модели
+from warehouse.models import Product, Shipment, User, WriteOffOfProducts, Extradition, ProductsCurrentQuantity  # Импортируйте ваши модели
 
 
 def generate_random_date(expiration_days=30):
@@ -67,11 +66,13 @@ def create_products(num_products=1000):
         expire_date = generate_random_date()
         product_type = random.choice(['Type A', 'Type B', 'Type C'])
         manufacturer = random.choice(['Manufacturer X', 'Manufacturer Y', 'Manufacturer Z'])
-        weight = round(random.uniform(0.1, 100.0), 2)  # Случайный вес от 0.1 до 100.0
+        weight = round(random.uniform(0.1, 100.0), 2)
 
-        # Создайте запись о поставке для связи (или получите существующую)
-        shipment = Shipment.objects.order_by('?').first()  # Получает случайную поставку
-        if shipment:  # Если найдена поставка
+        shipment = Shipment.objects.order_by('?').first()
+        write_off = WriteOffOfProducts.objects.order_by('?').first()  # Случайное списание
+        extradition = Extradition.objects.order_by('?').first()  # Случайная выдача
+
+        if shipment and write_off:
             product = Product(
                 product_name=product_name,
                 expire_date=expire_date,
@@ -79,27 +80,100 @@ def create_products(num_products=1000):
                 manufacturer=manufacturer,
                 weight=weight,
                 shipment=shipment,
+                write_off_of_products=write_off,
+                extradition=extradition,
             )
-            product.save()  # Сохранение продукта в базе данных
+            product.save()
 
-            # Генерация текущего количества для этого продукта
-            current_quantity = random.randint(1, 100)  # Случайное количество на текущий момент
+            current_quantity = random.randint(1, 100)
             product_quantity = ProductsCurrentQuantity(
                 quantity=current_quantity,
                 product=product,
             )
-            product_quantity.save()  # Сохранение текущего количества в базе данных
+            product_quantity.save()
+
+
+# def create_products(num_products=1000):
+#     """Создает заданное количество продуктов и их текущие количества."""
+#     for _ in range(num_products):
+#         product_name = f"Product {_ + 1}"
+#         expire_date = generate_random_date()
+#         product_type = random.choice(['Type A', 'Type B', 'Type C'])
+#         manufacturer = random.choice(['Manufacturer X', 'Manufacturer Y', 'Manufacturer Z'])
+#         weight = round(random.uniform(0.1, 100.0), 2)  # Случайный вес от 0.1 до 100.0
+#
+#         # Создайте запись о поставке для связи (или получите существующую)
+#         shipment = Shipment.objects.order_by('?').first()  # Получает случайную поставку
+#         if shipment:  # Если найдена поставка
+#             product = Product(
+#                 product_name=product_name,
+#                 expire_date=expire_date,
+#                 product_type=product_type,
+#                 manufacturer=manufacturer,
+#                 weight=weight,
+#                 shipment=shipment,
+#             )
+#             product.save()  # Сохранение продукта в базе данных
+#
+#             # Генерация текущего количества для этого продукта
+#             current_quantity = random.randint(1, 100)  # Случайное количество на текущий момент
+#             product_quantity = ProductsCurrentQuantity(
+#                 quantity=current_quantity,
+#                 product=product,
+#             )
+#             product_quantity.save()  # Сохранение текущего количества в базе данных
+
+
+
+
+def create_write_offs(num_write_offs=10):
+    """Создает заданное количество списаний продуктов."""
+    for i in range(num_write_offs):
+        product_write_off_date = generate_random_date()
+        quantity = random.randint(1, 20)
+        reason = random.choice(["Просрочено", "Брак"])
+        user = User.objects.order_by('?').first()
+
+        if user:
+            write_off = WriteOffOfProducts(
+                product_write_off_date=product_write_off_date,
+                quantity=quantity,
+                reason=reason,
+                user=user
+            )
+            write_off.save()
+
+
+def create_extraditions(num_extraditions=10):
+    """Создает заданное количество выдач продуктов."""
+    for i in range(num_extraditions):
+        date_of_extradition = generate_random_date()
+        quantity = random.randint(1, 20)
+        user = User.objects.order_by('?').first()
+
+        if user:
+            extradition = Extradition(
+                date_of_extradition=date_of_extradition,
+                quantity=quantity,
+                user=user
+            )
+            extradition.save()
+
 
 def clear_tables():
     """Очистка таблиц."""
     ProductsCurrentQuantity.objects.all().delete()  # Удаляем все записи из ProductsCurrentQuantity
+    WriteOffOfProducts.objects.all().delete()
+    Extradition.objects.all().delete()
     Product.objects.all().delete()                   # Удаляем все записи из Product
     Shipment.objects.all().delete()                  # Удаляем все записи из Shipment
     User.objects.all().delete()                      # Удаляем все записи из User
 
 
 if __name__ == "__main__":
-    clear_tables();
-    create_users(10)  # Сначала создаем пользователей
-    create_shipments(10)  # Затем создаем поставки
-    create_products(1000)  # Затем создаем продукты
+    clear_tables()
+    create_users(10)           # Сначала создаем пользователей
+    create_shipments(10)       # Затем создаем поставки
+    create_write_offs(10)      # Создаем списания продуктов
+    create_extraditions(10)    # Создаем выдачи продуктов
+    create_products(100)       # И наконец, создаем продукты

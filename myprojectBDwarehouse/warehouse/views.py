@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-
+#cd .\myprojectBDwarehouse\ табом
 #(.venv) PS C:\lessons\prog\bd\1\new1\BD\myprojectBDwarehouse> python manage.py runserver
 
 #curl -X GET http://127.0.0.1:8000/api/users/

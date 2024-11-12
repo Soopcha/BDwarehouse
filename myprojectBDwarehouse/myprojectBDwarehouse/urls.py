@@ -27,9 +27,9 @@ router = DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'shipments', ShipmentViewSet)
 router.register(r'products', ProductViewSet)
-router.register(r'writeOffOfProducts', WriteOffOfProductsViewSet)
+router.register(r'write-off-products', WriteOffOfProductsViewSet)
 router.register(r'extraditions', ExtraditionViewSet)
-router.register(r'productsCurrentQuantity', ProductsCurrentQuantityViewSet)
+router.register(r'products-current-quantity', ProductsCurrentQuantityViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
