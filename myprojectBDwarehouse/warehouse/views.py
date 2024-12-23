@@ -10,6 +10,19 @@ from django.shortcuts import render
 #телефон не обязателен так что и без него можно
 #curl -X PUT -H "Content-Type: application/json" -d "{\"user_name\": \"New Name222\", \"email\": \"newemail@example.com\", \"login\": \"newlogin\", \"password\": \"newpassword\", \"role\": \"user\", \"phone_number\": \"+1000007890\"}" http://127.0.0.1:8000/api/users/33/
 
+#curl -X GET "http://127.0.0.1:8000/api/users/?user_name=User%202" фиьтрация
+#curl -X GET "http://127.0.0.1:8000/api/users/?role=user" фиьтрация  - тут лучше пример только юзеры вылетают
+
+#curl -X GET "http://127.0.0.1:8000/api/users/?user_name=John" - поиск
+#curl -X GET "http://127.0.0.1:8000/api/users/?user_name=User%202&role=admin" - поиск несколько параметров
+
+#curl -X GET "http://127.0.0.1:8000/api/users/?ordering=user_name" - сортировка по имени
+#curl -X GET "http://127.0.0.1:8000/api/users/?ordering=-user_name" - сортировка в обратном порядке
+
+
+
+
+
 
 
 # warehouse/views.py
@@ -28,6 +41,10 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from .models import User, Shipment, Product
 from .serializers import *
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
+
+
 
 
 #viewsets.ModelViewSet — это класс во viewsets из DRF, который предоставляет стандартные методы для работы с CRUD
@@ -41,24 +58,59 @@ from .serializers import *
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()   #указывает, с какими данными работать (в данном случае, все объекты модели User)
     serializer_class = UserSerializer   #указывает, каким сериализатором обрабатывать данные, передаваемые и получаемые через API.
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = '__all__'  # Фильтрация по всем полям
+    search_fields = ['user_name', 'email', 'phone_number']  # Поля для поиска
+    ordering_fields = '__all__'  # Сортировка по всем полям
+    ordering = ['user_id']  # Сортировка по умолчанию
 
 class ShipmentViewSet(viewsets.ModelViewSet):
     queryset = Shipment.objects.all()
     serializer_class = ShipmentSerializer
 
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = '__all__'  # Фильтрация по всем полям
+    search_fields = ['quantity']  # Поля для поиска
+    ordering_fields = '__all__'  # Сортировка по всем полям
+    ordering = ['shipment_id']
+
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = '__all__'  # Фильтрация по всем полям
+    search_fields = ['product_name']  # Поля для поиска
+    ordering_fields = '__all__'  # Сортировка по всем полям
+    ordering = ['product_id']
 
 class WriteOffOfProductsViewSet(viewsets.ModelViewSet):
     queryset = WriteOffOfProducts.objects.all()
     serializer_class = WriteOffOfProductsSerializer
 
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = '__all__'  # Фильтрация по всем полям
+    search_fields = ['reason']  # Поля для поиска
+    ordering_fields = '__all__'  # Сортировка по всем полям
+    ordering = ['id_product_write_off']
+
 class ExtraditionViewSet(viewsets.ModelViewSet):
     queryset = Extradition.objects.all()
     serializer_class = ExtraditionSerializer
 
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = '__all__'  # Фильтрация по всем полям
+    search_fields = ['quantity']  # Поля для поиска
+    ordering_fields = '__all__'  # Сортировка по всем полям
+    ordering = ['extradition_id']
+
 class ProductsCurrentQuantityViewSet(viewsets.ModelViewSet):
     queryset = ProductsCurrentQuantity.objects.all()
     serializer_class = ProductsCurrentQuantitySerializer
+
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = '__all__'  # Фильтрация по всем полям
+    search_fields = ['quantity']  # Поля для поиска
+    ordering_fields = '__all__'  # Сортировка по всем полям
+    ordering = ['product_current_quantity_id']
 
