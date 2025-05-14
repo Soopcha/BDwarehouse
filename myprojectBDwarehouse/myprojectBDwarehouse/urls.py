@@ -32,8 +32,8 @@ router.register(r'extraditions', ExtraditionViewSet)
 router.register(r'products-current-quantity', ProductsCurrentQuantityViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),  # Добавляем пути роутера под /api/
+    path('api/', admin.site.urls),
+    path('admin/', include(router.urls)),  # Добавляем пути роутера под /api/
 ]
 
 #urlpatterns = [

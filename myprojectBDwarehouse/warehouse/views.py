@@ -3,21 +3,21 @@ from django.shortcuts import render
 #cd .\myprojectBDwarehouse\ табом
 #(.venv) PS C:\lessons\prog\bd\1\new1\BD\myprojectBDwarehouse> python manage.py runserver
 
-#curl -X GET http://127.0.0.1:8000/api/users/
-#curl -X GET http://10.0.2.2:8000/api/users/
+#curl -X GET http://127.0.0.1:8000/admin/users/
+#curl -X GET http://10.0.2.2:8000/admin/users/
 
 #curl -X PUT -H "Content-Type: application/json" -d "{\"user_name\": \"New Name\", \"email\": \"newemail@example.com\", \"login\": \"newlogin\", \"password\": \"newpassword\", \"role\": \"user\"}" http://127.0.0.1:8000/api/users/23/
 #телефон не обязателен так что и без него можно
 #curl -X PUT -H "Content-Type: application/json" -d "{\"user_name\": \"New Name222\", \"email\": \"newemail@example.com\", \"login\": \"newlogin\", \"password\": \"newpassword\", \"role\": \"user\", \"phone_number\": \"+1000007890\"}" http://127.0.0.1:8000/api/users/33/
 
-#curl -X GET "http://127.0.0.1:8000/api/users/?user_name=User%202" фиьтрация
-#curl -X GET "http://127.0.0.1:8000/api/users/?role=user" фиьтрация  - тут лучше пример только юзеры вылетают
+#curl -X GET "http://127.0.0.1:8000/admin/users/?user_name=User%202" фиьтрация
+#curl -X GET "http://127.0.0.1:8000/admin/users/?role=user" фиьтрация  - тут лучше пример только юзеры вылетают
 
-#curl -X GET "http://127.0.0.1:8000/api/users/?user_name=John" - поиск
-#curl -X GET "http://127.0.0.1:8000/api/users/?user_name=User%202&role=admin" - поиск несколько параметров
+#curl -X GET "http://127.0.0.1:8000/admin/users/?user_name=John" - поиск
+#curl -X GET "http://127.0.0.1:8000/admin/users/?user_name=User%202&role=admin" - поиск несколько параметров
 
-#curl -X GET "http://127.0.0.1:8000/api/users/?ordering=user_name" - сортировка по имени
-#curl -X GET "http://127.0.0.1:8000/api/users/?ordering=-user_name" - сортировка в обратном порядке
+#curl -X GET "http://127.0.0.1:8000/admin/users/?ordering=user_name" - сортировка по имени
+#curl -X GET "http://127.0.0.1:8000/admin/users/?ordering=-user_name" - сортировка в обратном порядке
 
 
 
