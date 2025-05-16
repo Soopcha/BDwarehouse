@@ -91,6 +91,7 @@ class UserViewSet(viewsets.ModelViewSet):
     search_fields = ['user_name', 'email', 'phone_number']  # Поля для поиска
     ordering_fields = '__all__'  # Сортировка по всем полям
     ordering = ['user_id']  # Сортировка по умолчанию
+    pagination_class = None  # Отключаем пагинацию
 
 class ShipmentViewSet(viewsets.ModelViewSet):
     queryset = Shipment.objects.all()
@@ -101,6 +102,7 @@ class ShipmentViewSet(viewsets.ModelViewSet):
     search_fields = ['quantity']  # Поля для поиска
     ordering_fields = '__all__'  # Сортировка по всем полям
     ordering = ['shipment_id']
+    pagination_class = None  # Отключаем пагинацию
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
@@ -111,6 +113,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     search_fields = ['product_name']  # Поля для поиска
     ordering_fields = '__all__'  # Сортировка по всем полям
     ordering = ['product_id']
+    pagination_class = None  # Отключаем пагинацию
 
 class WriteOffOfProductsViewSet(viewsets.ModelViewSet):
     queryset = WriteOffOfProducts.objects.all()
@@ -121,6 +124,7 @@ class WriteOffOfProductsViewSet(viewsets.ModelViewSet):
     search_fields = ['reason']  # Поля для поиска
     ordering_fields = '__all__'  # Сортировка по всем полям
     ordering = ['id_product_write_off']
+    pagination_class = None  # Отключаем пагинацию
 
 class ExtraditionViewSet(viewsets.ModelViewSet):
     queryset = Extradition.objects.all()
@@ -131,6 +135,7 @@ class ExtraditionViewSet(viewsets.ModelViewSet):
     search_fields = ['quantity']  # Поля для поиска
     ordering_fields = '__all__'  # Сортировка по всем полям
     ordering = ['extradition_id']
+    pagination_class = None  # Отключаем пагинацию
 
 class ProductsCurrentQuantityViewSet(viewsets.ModelViewSet):
     queryset = ProductsCurrentQuantity.objects.all()
@@ -141,4 +146,5 @@ class ProductsCurrentQuantityViewSet(viewsets.ModelViewSet):
     search_fields = ['quantity']  # Поля для поиска
     ordering_fields = '__all__'  # Сортировка по всем полям
     ordering = ['product_current_quantity_id']
+    pagination_class = None  # Отключаем пагинацию
 
